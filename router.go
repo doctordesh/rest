@@ -33,10 +33,15 @@ func NewRouter() *mux.Router {
 	return router
 }
 
-func sendError(code int, w http.ResponseWriter) {
+func sendError(code int, w http.ResponseWriter, reason string) {
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(map[string]string{
-		"status": http.StatusText(code),
-		"code":   strconv.Itoa(code),
+		"status":  http.StatusText(code),
+		"code":    strconv.Itoa(code),
+		"message": reason,
 	})
+}
+
+func sendJson(w http.ResponseWriter, obj interface{}) error {
+	return json.NewEncoder(w).Encode(obj)
 }

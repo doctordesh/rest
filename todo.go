@@ -23,7 +23,7 @@ func TodoIndex(w http.ResponseWriter, r *http.Request) {
 		Todo{Name: "ASD"},
 	}
 
-	if err := json.NewEncoder(w).Encode(todos); err != nil {
+	if err := sendJson(w, todos); err != nil {
 		panic(err)
 	}
 }

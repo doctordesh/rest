@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -29,6 +28,4 @@ func init() {
 		Token:        "aabbcc-ddeeff-gghhii-jjkkll-mmnnoo",
 		PasswordHash: string(hash),
 	})
-
-	fmt.Printf("Users: %v\n", users)
 }

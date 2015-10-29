@@ -14,10 +14,17 @@ type Route struct {
 
 type Routes []Route
 
+var defaultMiddlewares = []string{"Logger", "Auth", "JsonResponse"}
+
 var routes = Routes{
 	Route{"Index", "GET", "/", Index, nil},
-	Route{"Auth", "POST", "/auth", AuthHandler, []string{"Logger", "JsonResponse"}},
-	Route{"TodoIndex", "GET", "/todos", TodoIndex, []string{"Logger", "Auth", "JsonResponse"}},
-	Route{"TodoShow", "GET", "/todos/{todo_id}", TodoShow, []string{"Logger", "Auth", "JsonResponse"}},
-	Route{"TodoStore", "POST", "/todos", TodoStore, []string{"Logger", "Auth", "JsonResponse"}},
+	// Route{"TodoIndex", "GET", "/api/todos", TodoIndex, defaultMiddlewares},
+	// Route{"TodoShow", "GET", "/api/todos/{todo_id}", TodoShow, defaultMiddlewares},
+	// Route{"TodoStore", "POST", "/api/todos", TodoStore, defaultMiddlewares},
+
+	// Auth an invite
+	Route{"Auth", "POST", "/api/auth", AuthHandler, []string{"Logger", "JsonResponse"}},
+
+	// Update invite
+	Route{"InviteUpdate", "PUT", "/api/invites/{invite_id}", InviteUpdate, defaultMiddlewares},
 }
