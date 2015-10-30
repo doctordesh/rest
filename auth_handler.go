@@ -5,9 +5,13 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/doctordesh/rest/middlewares"
 )
 
 func AuthHandler(w http.ResponseWriter, r *http.Request) {
+	resp := middlewares.NewResponder(w)
+
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 999999))
 
@@ -21,16 +25,16 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
 	code, ok := data["code"].(string)
 
 	if ok == false {
-		sendError(http.StatusBadRequest, w, "Wrong datatype of code (string required)")
+		resp.SendError(http.StatusBadRequest, "Wrong datatype of code (string required)")
 		return
 	}
 
 	invite, err := authInvite(code)
 
 	if err != nil {
-		sendError(http.StatusUnauthorized, w, err.Error())
+		resp.SendError(http.StatusUnauthorized, err.Error())
 		return
 	}
 
-	sendJson(w, invite)
+	resp.SendJson(invite)
 }

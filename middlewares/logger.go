@@ -1,4 +1,4 @@
-package main
+package middlewares
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Logger(inner http.Handler, name string) http.Handler {
+func Logger(inner http.Handler, routeName string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
@@ -16,7 +16,7 @@ func Logger(inner http.Handler, name string) http.Handler {
 			"%s\t%s\t%s\t%s",
 			r.Method,
 			r.RequestURI,
-			name,
+			routeName,
 			time.Since(start),
 		)
 	})

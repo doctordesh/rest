@@ -26,11 +26,6 @@ func newDb() (*gorm.DB, error) {
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 
-	db.DropTableIfExists(&Invite{})
-	db.DropTableIfExists(&InviteMember{})
-	db.CreateTable(&Invite{})
-	db.CreateTable(&InviteMember{})
-
 	//db.Create(&Invite{Code: "toto", Token: "})
 
 	return &db, nil

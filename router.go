@@ -1,10 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
-	"strconv"
 
+	"github.com/doctordesh/rest/middlewares"
 	"github.com/gorilla/mux"
 )
 
@@ -17,13 +16,13 @@ func NewRouter() *mux.Router {
 
 		for _, middleware := range route.Middlewares {
 			if middleware == "Logger" {
-				handler = Logger(handler, route.Name)
+				handler = middlewares.Logger(handler, route.Name)
 			}
 			if middleware == "JsonResponse" {
-				handler = JsonResponse(handler)
+				handler = middlewares.JsonResponse(handler)
 			}
 			if middleware == "Auth" {
-				handler = Auth(handler, AUTH_HEADER)
+				handler = middlewares.Auth(handler, AUTH_HEADER)
 			}
 		}
 
@@ -31,17 +30,4 @@ func NewRouter() *mux.Router {
 	}
 
 	return router
-}
-
-func sendError(code int, w http.ResponseWriter, reason string) {
-	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(map[string]string{
-		"status":  http.StatusText(code),
-		"code":    strconv.Itoa(code),
-		"message": reason,
-	})
-}
-
-func sendJson(w http.ResponseWriter, obj interface{}) error {
-	return json.NewEncoder(w).Encode(obj)
 }
